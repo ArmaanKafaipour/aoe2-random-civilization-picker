@@ -6,7 +6,7 @@
 body {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
   color: white;
-  font-family: "Poppins", sans-serif;
+  font-family: "Open Sans Condensed", sans-serif;
   min-height: 100vh;
 }
 header {
@@ -15,15 +15,10 @@ header {
   justify-content: center;
 }
 
-.button-wrapper {
-  display: flex;
-  justify-content: space-around;
-  margin: 30px;
-}
-
 .display-civ {
   display: flex;
   justify-content: center;
+  padding-top: 100px;
   margin: 30px;
 }
 
@@ -31,6 +26,25 @@ header {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  font-size: 20px;
+  list-style-type: none;
+  padding-top: 200px;
+}
+
+.list-civs-wrapper {
+  float: left;
+  width: 10%;
+  margin: 10px;
+}
+
+.list-civs-text {
+  color: white;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px;
 }
 
 .submit-button {

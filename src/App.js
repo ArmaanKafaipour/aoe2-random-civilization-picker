@@ -112,15 +112,15 @@ function App() {
 
       <ul className="list-civs">
         {civilizations.map(({ name, id }) => (
-          <div>
-            <span>{`${name}`}</span>
+          <li className="list-civs-wrapper">
+            <span className="list-civs-text">{`${name}`}</span>
             <Switch
               id={id}
               name={name}
               checked={checkedState[id]}
               onChange={() => handleChangeSwitch(id)}
             />
-          </div>
+          </li>
           //HOW TO GET MULTIPLE SEPARATE SWITCHES - DONE
           //EACH WITH SEPARATE TRUE/FALSE - DONE
           //CREATE FILTERED ARRAY WITH ONLY TRUE ONES - DONE
