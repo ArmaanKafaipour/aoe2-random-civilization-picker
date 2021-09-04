@@ -103,8 +103,8 @@ function App() {
     const randNum = Math.floor(Math.random() * trueCivilizations.length);
     setDisplayedCiv(trueCivilizations[randNum]);
 
-    console.log(trueCivilizations);
-    console.log(checkedState);
+    // console.log(trueCivilizations);
+    // console.log(checkedState);
   };
 
   // Open civ tech tree wiki page
