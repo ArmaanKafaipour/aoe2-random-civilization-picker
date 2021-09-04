@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import "./App.css";
 import { Switch } from "react-switch-input";
 
+//TO DO
+//1. logos and link to tech tree
+//2. add custom civs
+//3. Include all/ exclude all buttons
+//4. title header of page - DONE
+//5. Random map selector
+//6. Remove recently selected civilizations from being selected again
+
 function App() {
   //Array of all civilizations in AOE2
   const civilizations = [
@@ -107,7 +115,7 @@ function App() {
     // console.log(checkedState);
   };
 
-  // Open civ tech tree wiki page
+  // Open civ wiki page
   const linkCiv = (e) => {
     e.preventDefault();
     if (conditionsArray.includes(displayedCiv)) {
@@ -120,11 +128,16 @@ function App() {
     }
   };
 
+  // Opens tech tree when clicking civ logo
+  const linkTechTree = () => {
+    window.open(`https://aoe2techtree.net/#${displayedCiv}`);
+  };
+
   // RETURN
   return (
     <div className="App">
       <header>
-        <h1>AOE2 Civilization Picker</h1>
+        <h1>AoE2 Civilization Picker</h1>
       </header>
       <div className="button-wrapper">
         <button className="submit-button" onClick={randomButtonHandler}>
@@ -134,6 +147,12 @@ function App() {
       <p className="display-civ" onClick={linkCiv}>
         {displayedCiv}
       </p>
+      <img
+        className="display-civ-logo"
+        src={`../assets/CivIcon-${displayedCiv}.png`}
+        alt="civ logo"
+        onClick={linkTechTree}
+      />
       <ul className="list-civs">
         {civilizations.map(({ name, id }) => (
           <li key={id}>
@@ -147,6 +166,11 @@ function App() {
                   onChange={() => handleChangeSwitch(id)}
                 />
               </div>
+              <img
+                src={`../assets/CivIcon-${name}.png`}
+                alt="civ logo"
+                className="civ-icons"
+              ></img>
             </span>
           </li>
           //HOW TO GET MULTIPLE SEPARATE SWITCHES - DONE

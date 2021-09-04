@@ -13,19 +13,38 @@ header {
   font-size: 2rem;
   display: flex;
   justify-content: center;
+  letter-spacing: 2px;
 }
 
 .display-civ {
   display: flex;
+  margin: 0 auto 0 auto;
+  width: 10%;
+  height: 90px;
   justify-content: center;
   padding-top: 20px;
-  margin: 20px;
   font-size: 25px;
+  font-weight: bold;
+  color: white;
 }
 
 .display-civ:hover {
   cursor: pointer;
   color: #d11780;
+}
+
+.display-civ-logo {
+  position: relative;
+  display: flex;
+  margin: 0 auto 0 auto;
+  height: 80px;
+  width: 80px;
+  margin-top: -30px;
+  justify-content: center;
+}
+
+.display-civ-logo:hover {
+  cursor: pointer;
 }
 
 .list-civs {
@@ -44,8 +63,14 @@ header {
 
 .switch {
   margin-top: 5px;
-  position: absolute;
-  display: inline-block;
+  position: relative;
+  display: inline-flex;
+}
+
+.civ-icons {
+  height: 20px;
+  width: 20px;
+  display: inline-flex;
 }
 
 .list-civs-text {
@@ -106,11 +131,11 @@ header {
 
 .submit-button:hover {
   background: #333123;
-  background-image: -webkit-linear-gradient(top, #333123, #d11780);
-  background-image: -moz-linear-gradient(top, #333123, #d11780);
-  background-image: -ms-linear-gradient(top, #333123, #d11780);
-  background-image: -o-linear-gradient(top, #333123, #d11780);
-  background-image: linear-gradient(to bottom, #333123, #d11780);
+  background-image: -webkit-linear-gradient(top, #333123, #2980b9);
+  background-image: -moz-linear-gradient(top, #333123, #2980b9);
+  background-image: -ms-linear-gradient(top, #333123, #2980b9);
+  background-image: -o-linear-gradient(top, #333123, #2980b9);
+  background-image: linear-gradient(to bottom, #333123, #2980b9);
   text-decoration: none;
   cursor: pointer;
 }
