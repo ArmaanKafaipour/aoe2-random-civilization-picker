@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Switch } from "react-switch-input";
 
 function App() {
-  // New array to store currently selected arrays
-
   //Array of all civilizations in AOE2
   const civilizations = [
     { name: "Aztecs" },
@@ -48,6 +46,21 @@ function App() {
     { name: "Vikings" },
   ];
 
+  // Some AOE2 wiki links are a different format, so store the civs with the different link in this array
+  const conditionsArray = [
+    "Aztecs",
+    "Berbers",
+    "Chinese",
+    "Ethiopians",
+    "Incas",
+    "Indians",
+    "Japanese",
+    "Mongols",
+    "Persians",
+    "Portuguese",
+    "Spanish",
+  ];
+
   //Give each civ a unique ID
   civilizations.forEach((item, i) => {
     item.id = i++;
@@ -60,15 +73,15 @@ function App() {
 
   const [displayedCiv, setDisplayedCiv] = useState("");
 
-  // Gets the index of the true civs in the array checkedState
-  const indices = checkedState.reduce(
-    (out, bool, index) => (bool ? out.concat(index) : out),
-    []
-  );
-
   // HANDLERS
   // updates the state of each individual civ(true or false)
   const handleChangeSwitch = (position) => {
+    // //Reduce checked state to only true items
+    // checkedState.reduce(
+    //   (out, bool, index) => (bool ? out.concat(index) : out),
+    //   []
+    // );
+
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
@@ -85,15 +98,27 @@ function App() {
         trueCivilizations.push(civilizations[i].name);
       }
     }
-    console.log(trueCivilizations);
 
     //Get a random number to pick from selected civilzations
     const randNum = Math.floor(Math.random() * trueCivilizations.length);
     setDisplayedCiv(trueCivilizations[randNum]);
-    console.log(displayedCiv);
+
+    console.log(trueCivilizations);
+    console.log(checkedState);
   };
 
-  const getNewTrueCivArray = () => {};
+  // Open civ tech tree wiki page
+  const linkCiv = (e) => {
+    e.preventDefault();
+    if (conditionsArray.includes(displayedCiv)) {
+      window.open(
+        `https://ageofempires.fandom.com/wiki/${displayedCiv}_(Age_of_Empires_II)`
+      );
+      // window.open(`https://aoe2techtree.net/#${displayedCiv}`);
+    } else {
+      window.open(`https://ageofempires.fandom.com/wiki/${displayedCiv}`);
+    }
+  };
 
   // RETURN
   return (
@@ -101,25 +126,28 @@ function App() {
       <header>
         <h1>AOE2 Civilization Picker</h1>
       </header>
-
       <div className="button-wrapper">
         <button className="submit-button" onClick={randomButtonHandler}>
           Random Civilization
         </button>
       </div>
-
-      <h2 className="display-civ">{displayedCiv}</h2>
-
+      <p className="display-civ" onClick={linkCiv}>
+        {displayedCiv}
+      </p>
       <ul className="list-civs">
         {civilizations.map(({ name, id }) => (
-          <li className="list-civs-wrapper">
-            <span className="list-civs-text">{`${name}`}</span>
-            <Switch
-              id={id}
-              name={name}
-              checked={checkedState[id]}
-              onChange={() => handleChangeSwitch(id)}
-            />
+          <li key={id}>
+            <span>
+              {`${name}`}
+              <div className="switch">
+                <Switch
+                  key={id}
+                  name={name}
+                  checked={checkedState[id]}
+                  onChange={() => handleChangeSwitch(id)}
+                />
+              </div>
+            </span>
           </li>
           //HOW TO GET MULTIPLE SEPARATE SWITCHES - DONE
           //EACH WITH SEPARATE TRUE/FALSE - DONE

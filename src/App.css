@@ -18,28 +18,61 @@ header {
 .display-civ {
   display: flex;
   justify-content: center;
-  padding-top: 100px;
-  margin: 30px;
+  padding-top: 20px;
+  margin: 20px;
+  font-size: 25px;
+}
+
+.display-civ:hover {
+  cursor: pointer;
+  color: red;
 }
 
 .list-civs {
   display: flex;
+  list-style-type: none;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.list-civs li {
+  font-size: 20px;
+  text-align: center;
+  width: 30%;
+  padding: 10px 10px 10px 10px;
+}
+
+.switch {
+  margin-top: 5px;
+  position: absolute;
+  display: inline-block;
+}
+
+.list-civs-text {
+  padding: 0.5px;
+  padding-right: 10px;
+}
+
+.crossed-line {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* .list-civs {
+  display: flex;
+  flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
   font-size: 20px;
   list-style-type: none;
-  padding-top: 200px;
+  padding-top: 100px;
 }
 
-.list-civs-wrapper {
-  float: left;
+.list-civs li {
   width: 10%;
   margin: 10px;
-}
-
-.list-civs-text {
-  color: white;
-}
+  float: left;
+} */
 
 .button-wrapper {
   display: flex;
