@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./App.css";
 import { Switch } from "react-switch-input";
 
 //TO DO
-//1. logos and link to tech tree
+//1. logos and link to tech tree - DONE
+//1a. Style logos in columns better
 //2. add custom civs
 //3. Include all/ exclude all buttons
 //4. title header of page - DONE
-//5. Random map selector
+//5. Random map selector - IN PROGRESS
 //6. Remove recently selected civilizations from being selected again
+//7. LINE THROUGH WHEN SET TO FALSE
+//8. MAKE OWN API TO GET CIVS?
 
 function App() {
   //Array of all civilizations in AOE2
@@ -133,54 +136,92 @@ function App() {
     window.open(`https://aoe2techtree.net/#${displayedCiv}`);
   };
 
+  const mapPage = useRef();
+  const landingPage = useRef();
+  const civPage = useRef();
+
+  const mapPageHandler = () => {
+    mapPage.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const civPickerHandler = () => {
+    civPage.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   // RETURN
   return (
     <div className="App">
-      <header>
-        <h1>AoE2 Civilization Picker</h1>
-      </header>
-      <div className="button-wrapper">
-        <button className="submit-button" onClick={randomButtonHandler}>
-          Random Civilization
+      <section>
+        <header>
+          <div className="text-box">
+            <h1 ref={landingPage} class="heading-primary">
+              <span class="heading-primary-main">AoE2 Random Generator</span>
+            </h1>
+
+            <button
+              className="btn btn-white btn-animated"
+              onClick={civPickerHandler}
+            >
+              Civilization Picker
+            </button>
+            <button
+              className="btn btn-white btn-animated"
+              onClick={mapPageHandler}
+            >
+              Map Pickers
+            </button>
+          </div>
+        </header>
+      </section>
+
+      <section className="section-two">
+        <div className="button-wrapper">
+          <button className="submit-button" onClick={randomButtonHandler}>
+            Random Civilization
+          </button>
+        </div>
+
+        <div ref={civPage} className="display-container">
+          <p className="display-civ" onClick={linkCiv}>
+            {displayedCiv}
+          </p>
+          <img
+            className="display-civ-logo"
+            src={`../assets/CivIcon-${displayedCiv}.png`}
+            alt="civ logo"
+            onClick={linkTechTree}
+          />
+        </div>
+
+        <ul className="list-civs">
+          {civilizations.map(({ name, id }) => (
+            <li key={id}>
+              <span>
+                {`${name}`}
+                <div className="switch">
+                  <Switch
+                    key={id}
+                    name={name}
+                    checked={checkedState[id]}
+                    onChange={() => handleChangeSwitch(id)}
+                  />
+                </div>
+                <img
+                  src={`../assets/CivIcon-${name}.png`}
+                  alt="civ logo"
+                  className="civ-icons"
+                ></img>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <button className="map-picker-button" onClick={mapPageHandler}>
+          Map Picker
         </button>
-      </div>
-      <p className="display-civ" onClick={linkCiv}>
-        {displayedCiv}
-      </p>
-      <img
-        className="display-civ-logo"
-        src={`../assets/CivIcon-${displayedCiv}.png`}
-        alt="civ logo"
-        onClick={linkTechTree}
-      />
-      <ul className="list-civs">
-        {civilizations.map(({ name, id }) => (
-          <li key={id}>
-            <span>
-              {`${name}`}
-              <div className="switch">
-                <Switch
-                  key={id}
-                  name={name}
-                  checked={checkedState[id]}
-                  onChange={() => handleChangeSwitch(id)}
-                />
-              </div>
-              <img
-                src={`../assets/CivIcon-${name}.png`}
-                alt="civ logo"
-                className="civ-icons"
-              ></img>
-            </span>
-          </li>
-          //HOW TO GET MULTIPLE SEPARATE SWITCHES - DONE
-          //EACH WITH SEPARATE TRUE/FALSE - DONE
-          //CREATE FILTERED ARRAY WITH ONLY TRUE ONES - DONE
-          //
-          //LINE THROUGH WHEN SET TO FALSE
-          //STYLING
-        ))}
-      </ul>
+      </section>
+      <section className="section-three">
+        <h1 ref={mapPage}>Map Picker Page </h1>
+      </section>
     </div>
   );
 }
