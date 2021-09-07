@@ -168,7 +168,7 @@ function App() {
               className="btn btn-white btn-animated"
               onClick={mapPageHandler}
             >
-              Map Pickers
+              Map Picker
             </button>
           </div>
         </header>
@@ -193,34 +193,37 @@ function App() {
           />
         </div>
 
-        <ul className="list-civs">
-          {civilizations.map(({ name, id }) => (
-            <li key={id}>
-              <span>
+        <div className="civ-list-wrapper">
+          <ul className="list-civs">
+            {civilizations.map(({ name, id }) => (
+              <li key={id}>
                 {`${name}`}
-                <div className="switch">
-                  <Switch
-                    key={id}
-                    name={name}
-                    checked={checkedState[id]}
-                    onChange={() => handleChangeSwitch(id)}
-                  />
+                <div className="inner-list">
+                  <div className="switch">
+                    <Switch
+                      key={id}
+                      name={name}
+                      checked={checkedState[id]}
+                      onChange={() => handleChangeSwitch(id)}
+                    />
+                  </div>
+                  <img
+                    src={`../assets/CivIcon-${name}.png`}
+                    alt="civ logo"
+                    className="civ-icons"
+                  ></img>
                 </div>
-                <img
-                  src={`../assets/CivIcon-${name}.png`}
-                  alt="civ logo"
-                  className="civ-icons"
-                ></img>
-              </span>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
         <button className="map-picker-button" onClick={mapPageHandler}>
           Map Picker
         </button>
       </section>
+
       <section className="section-three">
-        <h1 ref={mapPage}>Map Picker Page </h1>
+        <h1 ref={mapPage}>Map Picker Page - UNDER CONSTRUCTION</h1>
       </section>
     </div>
   );
