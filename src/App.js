@@ -4,11 +4,12 @@ import { Switch } from "react-switch-input";
 
 //TO DO
 //1. logos and link to tech tree - DONE
-//1a. Style logos in columns better
+//1a. Style logos in columns better - DONE
 //2. add custom civs
-//3. Include all/ exclude all buttons
+//3. Include all/ exclude all buttons - DONE
+//   Generate error message when trying to select a random civ while none are selected
 //4. title header of page - DONE
-//5. Random map selector - IN PROGRESS
+//5. Random map selector
 //6. Remove recently selected civilizations from being selected again
 //7. LINE THROUGH WHEN SET TO FALSE
 //8. MAKE OWN API TO GET CIVS?
@@ -87,12 +88,6 @@ function App() {
   // HANDLERS
   // updates the state of each individual civ(true or false)
   const handleChangeSwitch = (position) => {
-    // //Reduce checked state to only true items
-    // checkedState.reduce(
-    //   (out, bool, index) => (bool ? out.concat(index) : out),
-    //   []
-    // );
-
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
@@ -113,9 +108,6 @@ function App() {
     //Get a random number to pick from selected civilzations
     const randNum = Math.floor(Math.random() * trueCivilizations.length);
     setDisplayedCiv(trueCivilizations[randNum]);
-
-    // console.log(trueCivilizations);
-    // console.log(checkedState);
   };
 
   // Open civ wiki page
@@ -148,14 +140,54 @@ function App() {
     civPage.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const homePageHandler = () => {
+    landingPage.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const exludeAllHandler = (e) => {
+    e.preventDefault();
+    const excludeAllState = checkedState;
+    var i,
+      n = checkedState.length;
+    //set all states to false
+    for (i = 0; i < n; ++i) {
+      excludeAllState[i] = false;
+    }
+    //update checked state array with all falses
+    setCheckedState(excludeAllState);
+    //updates switches on screen
+    handleChangeSwitch();
+  };
+
+  const includeAllHandler = (e) => {
+    e.preventDefault();
+    const includeAllState = checkedState;
+    var i,
+      n = checkedState.length;
+    for (i = 0; i < n; ++i) {
+      includeAllState[i] = true;
+    }
+    //update checked state array with all trues
+    setCheckedState(includeAllState);
+    //updates switches on screen
+    handleChangeSwitch();
+  };
+
+  const inputSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log("hey");
+  };
+
   // RETURN
   return (
     <div className="App">
       <section>
         <header>
           <div className="text-box">
-            <h1 ref={landingPage} class="heading-primary">
-              <span class="heading-primary-main">AoE2 Random Generator</span>
+            <h1 ref={landingPage} className="heading-primary">
+              <span className="heading-primary-main">
+                AoE2 Random Generator
+              </span>
             </h1>
 
             <button
@@ -180,6 +212,33 @@ function App() {
             Random Civilization
           </button>
         </div>
+        <div>
+          <button
+            className="submit-button button-exclude"
+            onClick={exludeAllHandler}
+          >
+            Exclude All
+          </button>
+          <button
+            className="submit-button button-include"
+            onClick={includeAllHandler}
+          >
+            Include All
+          </button>
+          {/* Commented out - No custom civ input for now */}
+          {/* <form className="custom-entry-form">
+            <label>
+              Enter custom civilization:
+              <input type="text" />
+            </label>
+            <input
+              className="submit-button form-submit"
+              type="submit"
+              value="Add"
+              onSubmit={inputSubmitHandler}
+            />
+          </form> */}
+        </div>
 
         <div ref={civPage} className="display-container">
           <p className="display-civ" onClick={linkCiv}>
@@ -188,38 +247,42 @@ function App() {
           <img
             className="display-civ-logo"
             src={`../assets/CivIcon-${displayedCiv}.png`}
-            alt="civ logo"
+            alt=""
             onClick={linkTechTree}
           />
         </div>
 
-        <div className="civ-list-wrapper">
-          <ul className="list-civs">
-            {civilizations.map(({ name, id }) => (
-              <li key={id}>
-                {`${name}`}
-                <div className="inner-list">
-                  <div className="switch">
-                    <Switch
-                      key={id}
-                      name={name}
-                      checked={checkedState[id]}
-                      onChange={() => handleChangeSwitch(id)}
-                    />
-                  </div>
-                  <img
-                    src={`../assets/CivIcon-${name}.png`}
-                    alt="civ logo"
-                    className="civ-icons"
-                  ></img>
+        <ul className="list-civs">
+          {civilizations.map(({ name, id }) => (
+            <li key={id}>
+              {`${name}`}
+              <div className="inner-list">
+                <div className="switch">
+                  <Switch
+                    key={id}
+                    name={name}
+                    checked={checkedState[id]}
+                    onChange={() => handleChangeSwitch(id)}
+                  />
                 </div>
-              </li>
-            ))}
-          </ul>
+                <img
+                  src={`../assets/CivIcon-${name}.png`}
+                  alt="civ icon"
+                  className="civ-icons"
+                ></img>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="civPickerNavButtons">
+          <button className="map-picker-button" onClick={mapPageHandler}>
+            Map Picker
+          </button>
+          <button className="map-picker-button" onClick={homePageHandler}>
+            Home
+          </button>
         </div>
-        <button className="map-picker-button" onClick={mapPageHandler}>
-          Map Picker
-        </button>
       </section>
 
       <section className="section-three">
