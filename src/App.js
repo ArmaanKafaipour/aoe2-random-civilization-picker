@@ -5,14 +5,14 @@ import { Switch } from "react-switch-input";
 //TO DO
 //1. logos and link to tech tree - DONE
 //1a. Style logos in columns better - DONE
-//2. add custom civs
+//2. add custom civs - MAYBE LATER
 //3. Include all/ exclude all buttons - DONE
-//   Generate error message when trying to select a random civ while none are selected
-//4. title header of page - DONE
-//5. Random map selector
-//6. Remove recently selected civilizations from being selected again
-//7. LINE THROUGH WHEN SET TO FALSE
-//8. MAKE OWN API TO GET CIVS?
+//4. Generate error message when trying to select a random civ while none are selected
+//5. title header of page - DONE
+//6. Random map selector
+//7. Remove recently selected civilizations from being selected again
+//8. LINE THROUGH WHEN SET TO FALSE
+//9. MAKE OWN API TO GET CIVS?
 
 function App() {
   //Array of all civilizations in AOE2
@@ -84,6 +84,10 @@ function App() {
   );
 
   const [displayedCiv, setDisplayedCiv] = useState("");
+  const [{ errStatus, errMessage }, setErrorMessage] = useState({
+    errStatus: false,
+    errMessage: "",
+  });
 
   // HANDLERS
   // updates the state of each individual civ(true or false)
@@ -92,17 +96,28 @@ function App() {
       index === position ? !item : item
     );
     setCheckedState(updatedCheckedState);
+    setErrorMessage(() => ({ status: false, message: "" }));
   };
 
   // Picks a random civ from the selected civs
   const randomButtonHandler = () => {
-    //New array to store selected civilzations
     const trueCivilizations = [];
-    for (let i = 0; i < checkedState.length; i++) {
-      if (checkedState[i] === true) {
-        //Add only selected civs to the array
-        trueCivilizations.push(civilizations[i].name);
+    //If checked state includes true values, proceed as normal
+    if (checkedState.includes(true)) {
+      setErrorMessage(() => ({ status: false, message: "" }));
+      //New array to store selected civilzations
+      for (let i = 0; i < checkedState.length; i++) {
+        if (checkedState[i] === true) {
+          //Add only selected civs to the array
+          trueCivilizations.push(civilizations[i].name);
+        }
       }
+      //if no true values exist, generate error msg
+    } else {
+      setErrorMessage(() => ({
+        errStatus: true,
+        errMessage: "No civilization selected!",
+      }));
     }
 
     //Get a random number to pick from selected civilzations
@@ -144,7 +159,7 @@ function App() {
     landingPage.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const exludeAllHandler = (e) => {
+  const excludeAllHandler = (e) => {
     e.preventDefault();
     const excludeAllState = checkedState;
     var i,
@@ -169,14 +184,15 @@ function App() {
     }
     //update checked state array with all trues
     setCheckedState(includeAllState);
+    setErrorMessage(() => ({ status: false, message: "" }));
     //updates switches on screen
     handleChangeSwitch();
   };
 
-  const inputSubmitHandler = (e) => {
-    e.preventDefault();
-    console.log("hey");
-  };
+  // const inputSubmitHandler = (e) => {
+  //   e.preventDefault();
+  //   console.log("hey");
+  // };
 
   // RETURN
   return (
@@ -212,10 +228,11 @@ function App() {
             Random Civilization
           </button>
         </div>
+
         <div>
           <button
             className="submit-button button-exclude"
-            onClick={exludeAllHandler}
+            onClick={excludeAllHandler}
           >
             Exclude All
           </button>
@@ -251,7 +268,7 @@ function App() {
             onClick={linkTechTree}
           />
         </div>
-
+        {errMessage && <div className="error"> {errMessage} </div>}
         <ul className="list-civs">
           {civilizations.map(({ name, id }) => (
             <li key={id}>
